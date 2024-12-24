@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .product {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .product a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .buttons {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .buttons a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+        .buttons a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+
+    <div class="buttons">
+        <a href="{% url 'download_csv' %}">Download CSV</a>
+        <a href="{% url 'download_json' %}">Download JSON</a>
+    </div>
+
+    <div class="product-list">
+        {% for product in products %}
+            <div class="product">
+                <img src="{{ product.photo_url }}" alt="{{ product.name }}">
+                <h2>{{ product.name }}</h2>
+                <p>Price: {{ product.current_price }} TL</p>
+                {% if product.old_price %}
+                    <p>Old Price: {{ product.old_price }} TL</p>
+                {% endif %}
+                {% if product.discount %}
+                    <p>Discount: {{ product.discount }}</p>
+                {% endif %}
+                {% if product.offer_end_date %}
+                    <p>Offer Ends: {{ product.offer_end_date }}</p>
+                {% endif %}
+                <a href="{{ product.product_url }}" target="_blank">View Product</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
